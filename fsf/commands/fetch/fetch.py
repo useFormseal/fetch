@@ -13,6 +13,7 @@ from fsf.providers import get_provider
 def run(args):
     parser = argparse.ArgumentParser(prog="fsf fetch")
     parser.add_argument("--output", default=None)
+    parser.add_argument("--debug", action="store_true", default=False)
     parsed = parser.parse_args(args)
 
     cfg = load_config()
@@ -26,7 +27,7 @@ def run(args):
     if not provider:
         fail(f"Unknown provider: {provider_name}")
 
-    provider_config = _build_provider_config(provider, provider_name)
+    provider_config = _build_provider_config(provider, provider_name, parsed.debug)
 
     br()
     header()
@@ -76,8 +77,8 @@ def run(args):
     br()
 
 
-def _build_provider_config(provider, provider_name):
-    config = {}
+def _build_provider_config(provider, provider_name, debug=False):
+    config = {"debug": debug}
     cfg = load_config()
 
     for field in provider.get_inputs():

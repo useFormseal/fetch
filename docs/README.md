@@ -15,6 +15,13 @@ Welcome to the formseal-fetch documentation.
 | [Redis](./backends/redis.md) | Redis backend |
 | [Troubleshooting](./troubleshooting.md) | Common issues and solutions |
 
+## For Developers
+
+| Guide | Description |
+|-------|-------------|
+| [Provider Guide](./providers/README.md) | Create new storage providers |
+| [CONTRIBUTING.md](../CONTRIBUTING.md) | Contributing guide |
+
 ## What is formseal-fetch?
 
 formseal-fetch is a CLI tool that downloads encrypted form submissions from your storage backend. Use it together with [formseal-embed](https://github.com/grayguava/formseal-embed) — the client-side form encryption library.

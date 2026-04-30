@@ -5,12 +5,12 @@ from fsf.providers.cloudflare.account import get_account_id
 from fsf.providers.cloudflare.storage.kv import fetch as kv_fetch
 
 
-def run(config):
+def run(config, debug=False):
     namespace = config.get("namespace")
     token = config.get("token")
     if not namespace or not token:
         raise ValueError("namespace and token are required")
-    return kv_fetch(namespace=namespace, token=token)
+    return kv_fetch(namespace=namespace, token=token, debug=debug)
 
 
 def get_account(config):

@@ -24,18 +24,25 @@ def _detect_ciphertext_col(row: dict) -> str | None:
     return None
 
 
-def _get(url, headers):
+def _get(url, headers, debug=False):
     req = urllib.request.Request(url, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
-        fail(f"HTTP {e.code}: {e.read().decode()}")
+        body = e.read().decode("utf-8", errors="replace")
+        if debug:
+            fail(f"HTTP {e.code}: {body}")
+        fail(f"Supabase HTTP {e.code}: API request failed (run with --debug for details)")
+    except urllib.error.URLError as e:
+        if debug:
+            fail(f"Network error: {e.reason}")
+        fail(f"Network error: Unable to reach Supabase API (run with --debug for details)")
     except Exception as e:
         fail(f"Fetch failed: {e}")
 
 
-def fetch(ref, token, table):
+def fetch(ref, token, table, debug=False):
     """Fetch all rows from a table. Returns dict[str, bytes]."""
     base_url = f"https://{ref}.supabase.co/rest/v1/{table}"
 
@@ -46,7 +53,7 @@ def fetch(ref, token, table):
     }
 
     # --- Auto-detect ciphertext column ---
-    probe = _get(f"{base_url}?limit=10&select=*", headers)
+    probe = _get(f"{base_url}?limit=10&select=*", headers, debug)
     if not probe:
         return {"ciphertexts": b""}
 
@@ -62,7 +69,7 @@ def fetch(ref, token, table):
 
     while True:
         url = f"{base_url}?offset={offset}&limit={limit}&select=id,{col}"
-        data = _get(url, headers)
+        data = _get(url, headers, debug)
 
         if not data:
             break

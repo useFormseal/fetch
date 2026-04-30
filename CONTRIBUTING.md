@@ -9,6 +9,7 @@ Thanks for your interest in contributing! Contributions of all kinds are welcome
 - [Getting started](#getting-started)
 - [Project structure](#project-structure)
 - [Adding a new provider](#adding-a-new-provider)
+- [Provider Guide](./docs/providers/README.md)
 - [Versioning](#versioning)
 - [Code style](#code-style)
 - [Submitting changes](#submitting-changes)
@@ -72,21 +73,22 @@ formseal-fetch/
 
 Providers are storage backends that `fsf fetch` reads ciphertexts from. Each lives in its own sub-package under `fsf/providers/`.
 
-**1. Create the package folder:**
+**Detailed specs:** See [docs/providers/README.md](docs/providers/README.md)
+
+**Quick structure:**
 ```
 fsf/providers/<name>/
 ├── config.json    # Provider metadata
 ├── __init__.py  # Provider class
-└── engine.py    # Fetch logic
+└── engine.py   # Fetch logic
 ```
 
-**2. Create `config.json`:**
+**1. Create `config.json`:**
 ```json
 {
-  "name": "<name>",
   "display_name": "Display Name",
-  "storage_type": "Storage Type",
-  "token_label": "Token Prompt Label",
+  "storage_type": "Storage Type (e.g., PostgreSQL)",
+  "token_label": "API Token",
   "inputs": [
     {
       "name": "field_name",
@@ -98,7 +100,7 @@ fsf/providers/<name>/
 }
 ```
 
-**3. Implement the provider in `__init__.py`:**
+**2. Implement the provider in `__init__.py`:**
 ```python
 from fsf.providers import BaseProvider
 from fsf.providers.<name>.engine import run
@@ -106,19 +108,41 @@ from fsf.providers.<name>.engine import run
 class MyProvider(BaseProvider):
     name = "<name>"
 
-    def fetch(self, config):
-        return run(config)
+    def _do_fetch(self, config):
+        return run(config, debug=config.get("debug", False))
 
 Provider = MyProvider
 ```
 
-**4. Implement fetch logic in `engine.py`:**
+**3. Implement fetch logic in `engine.py`:**
 ```python
-def run(config):
-    return {"submission-id": b"ciphertext bytes here"}
+def run(config, debug=False):
+    # your fetch logic
+    return {"submission-id": b"ciphertext data"}
 ```
 
-**5. Register it** by adding the package to `pyproject.toml` under `[tool.setuptools].packages`:
+**4. Error handling:**
+
+Catch exceptions and provide helpful messages:
+```python
+def run(config, debug=False):
+    try:
+        # fetch logic
+        return {"key": b"value"}
+    except Exception as e:
+        err = str(e)
+        if "connection" in err.lower():
+            fail("""Unable to connect
+
+Possible causes:
+- Network/firewall blocking port
+- Credentials incorrect
+
+Run 'fsf fetch --debug' for details""")
+        fail(f"Error: {err}" if debug else f"Error: {err}")
+```
+
+**5. Register it** in `pyproject.toml`:
 ```toml
 [tool.setuptools]
 packages = [
@@ -127,7 +151,7 @@ packages = [
 ]
 ```
 
-**6. Verify** it appears:
+**6. Verify:**
 ```bash
 fsf providers
 ```
@@ -138,9 +162,18 @@ fsf providers
 
 The version string lives in **`version.txt`** and is the single source of truth. The publish workflow reads it and injects it into the code at build time.
 
+### For Contributors
+
+1. Update `version.txt` with your proposed version (e.g., `2.6.0`)
+2. Open a PR
+3. The maintainer handles the release workflow after merge
+
+### For Maintainers (Releasing)
+
 When preparing a release:
-1. Update `version.txt` with the new version (e.g., `2.3.0`)
+1. Update `version.txt` with the new version (e.g., `2.6.0`)
 2. Trigger the **Inject Version** workflow from GitHub Actions
+3. Create a GitHub Release with the new version tag
 
 ---
 

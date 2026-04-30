@@ -9,8 +9,8 @@ class SupabaseProvider(BaseProvider):
 
     name = "supabase"
 
-    def fetch(self, config):
-        return run(config)
+    def _do_fetch(self, config):
+        return run(config, debug=config.get("debug", False))
 
 
 Provider = SupabaseProvider

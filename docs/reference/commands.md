@@ -44,7 +44,7 @@ Press `Ctrl+C` at any prompt to cancel.
 Download ciphertexts from your connected backend.
 
 ```bash
-fsf fetch [--output <path>]
+fsf fetch [--output <path>] [--debug]
 ```
 
 **Options:**
@@ -52,6 +52,7 @@ fsf fetch [--output <path>]
 | Option | Description |
 |--------|-------------|
 | `--output` | Custom output file path (default: `<output_folder>/formseal.ct.jsonl`) |
+| `--debug` | Show full error tracebacks for debugging |
 
 **Examples:**
 
@@ -61,6 +62,9 @@ fsf fetch
 
 # Custom output file
 fsf fetch --output my-data.jsonl
+
+# Debug mode (detailed errors)
+fsf fetch --debug
 ```
 
 **Deduplication:**
@@ -80,33 +84,11 @@ fsf status
 ```
 
 **Output includes:**
-
+ 
 - Provider name and display name
 - Provider-specific fields (from config)
 - Token status and storage location
 - Output folder path
-
----
-
-### set
-
-Set a configuration value.
-
-```bash
-fsf set <key> <value>
-```
-
-**Arguments:**
-
-| Key | Description |
-|-----|-------------|
-| `output_folder` | Path where ciphertexts are saved |
-
-**Examples:**
-
-```bash
-fsf set output_folder my-data
-```
 
 ---
 

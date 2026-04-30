@@ -47,7 +47,7 @@ fsf connect <name>
 
 ```json
 {
-  "cloudflare:token": "dG9rZW4tZXhhbXBsZQ==",
+  "cloudflare:token": "cfut_dG9rZW4tZXhhbXBsZQ==",
   "cloudflare:namespace": "bmFtZXNwYWNlLWlk"
 }
 ```

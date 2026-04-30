@@ -4,7 +4,7 @@
 from fsf.providers.supabase.storage import fetch as supabase_fetch
 
 
-def run(config):
+def run(config, debug=False):
     ref = config.get("project_ref")
     token = config.get("token")
     table = config.get("table")
@@ -12,4 +12,4 @@ def run(config):
         raise ValueError("project_ref and token are required")
     if not table:
         raise ValueError("table is required")
-    return supabase_fetch(ref=ref, token=token, table=table)
+    return supabase_fetch(ref=ref, token=token, table=table, debug=debug)

@@ -97,11 +97,12 @@ Your API tokens never leave your machine. formseal-fetch:
 - [Commands Reference](./docs/reference/commands.md)
 - [Troubleshooting](./docs/troubleshooting.md)
 
+## For developers/contributors
+
+- [Provider guide](./docs/providers/README.md) — Add new storage backends
+- [CONTRIBUTING.md](./contributing.md) — Full contributing guide
+
 ---
-
-## Contributing
-
-Contributions welcome! See [contributing.md](./contributing.md) for how to add providers and contribute code.
 
 Please star the repo if you find formseal-fetch useful.
 
