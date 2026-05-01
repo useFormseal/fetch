@@ -52,6 +52,9 @@ def run(args):
     try:
         files = provider.fetch(provider_config)
     except Exception as e:
+        if parsed.debug:
+            import traceback
+            traceback.print_exc()
         fail(f"Fetch failed: {e}")
 
     if not files:

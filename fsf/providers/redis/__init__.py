@@ -10,7 +10,7 @@ class RedisProvider(BaseProvider):
     name = "redis"
 
     def _do_fetch(self, config):
-        return run(config)
+        return run(config, debug=config.get("debug", False))
 
 
 Provider = RedisProvider

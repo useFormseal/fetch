@@ -7,7 +7,6 @@ Welcome to the formseal-fetch documentation.
 | Guide | Description |
 |-------|-------------|
 | [Getting Started](./getting-started.md) | Installation and first-time setup |
-| [Security](./security.md) | How credentials are stored and protected |
 | [Commands Reference](./reference/commands.md) | All available commands |
 | [Configuration](./reference/configuration.md) | Config files and storage |
 | [Cloudflare KV](./backends/cloudflare-kv.md) | Cloudflare KV backend |
@@ -15,12 +14,13 @@ Welcome to the formseal-fetch documentation.
 | [Redis](./backends/redis.md) | Redis backend |
 | [Troubleshooting](./troubleshooting.md) | Common issues and solutions |
 
-## For Developers
+## For developers
 
 | Guide | Description |
 |-------|-------------|
 | [Provider Guide](./providers/README.md) | Create new storage providers |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Contributing guide |
+| [SECURITY.md](../.github/SECURITY.md) | Security policy |
 
 ## What is formseal-fetch?
 

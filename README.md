@@ -93,9 +93,14 @@ Your API tokens never leave your machine. formseal-fetch:
 ## Documentation
 
 - [Getting Started](./docs/getting-started.md)
-- [Security](./docs/security.md)
 - [Commands Reference](./docs/reference/commands.md)
 - [Troubleshooting](./docs/troubleshooting.md)
+
+## For Developers
+
+- [Provider Guide](./docs/providers/README.md) — Add new storage backends
+- [CONTRIBUTING.md](./contributing.md) — Full contributing guide
+- [SECURITY.md](./.github/SECURITY.md) — Security policy
 
 ## For developers/contributors
 

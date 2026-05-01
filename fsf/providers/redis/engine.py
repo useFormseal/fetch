@@ -56,7 +56,7 @@ Try:
 Check your credentials in:
 - Run 'fsf connect redis' to reset""")
 
-        fail(f"Redis error: {err}" if debug else f"Redis connection failed: {err}")
+        fail("Redis connection failed. Run 'fsf fetch --debug' for details.")
 
     result = {}
     for i, v in enumerate(values):

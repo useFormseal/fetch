@@ -117,11 +117,11 @@ def _setup_flow(provider, parsed, provider_obj):
             br()
             return
 
-    output_folder = Path(output_folder).resolve()
+    output_folder = Path(output_folder).expanduser().resolve()
     try:
         output_folder.mkdir(parents=True, exist_ok=True)
-    except Exception as e:
-        fail(f"Invalid output folder: {e}")
+    except Exception:
+        fail("Could not create output folder. Check permissions.")
 
     cfg["output_folder"] = str(output_folder)
     print()
