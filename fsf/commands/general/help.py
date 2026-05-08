@@ -23,7 +23,7 @@ def _get_help_groups():
             ("fsf --aliases", "list shorthand flags"),
         ],
         "Docs": [
-            ("https://github.com/grayguava/formseal-fetch", None),
+            ("https://github.com/useFormseal/fetch", None),
         ],
     }
 

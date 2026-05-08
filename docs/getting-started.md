@@ -19,7 +19,7 @@ pip install formseal-fetch
 ### From source
 
 ```bash
-git clone https://github.com/grayguava/formseal-fetch.git
+git clone https://github.com/useFormseal/fetch.git
 cd formseal-fetch
 pip install -e .
 ```

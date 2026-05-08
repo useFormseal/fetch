@@ -14,5 +14,5 @@ def run():
     br()
     print(f"  {G}License:      {R}  MIT")
     print(f"  {G}Maintained by:{R}  grayguava")
-    print(f"  {G}Repository:   {R}  https://github.com/grayguava/formseal-fetch")
+    print(f"  {G}Repository:   {R}  https://github.com/useFormseal/fetch")
     br()

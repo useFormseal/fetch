@@ -19,7 +19,7 @@ Please upgrade before reporting vulnerabilities on outdated releases.
 
 Report vulnerabilities privately through GitHub:
 
-https://github.com/grayguava/formseal-fetch/security/advisories/new
+https://github.com/useFormseal/fetch/security/advisories/new
 
 Include:
 

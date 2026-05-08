@@ -197,7 +197,7 @@ This is intentional — you can safely interrupt at any prompt.
    fsf fetch 2>&1
    ```
 
-2. Check [GitHub Issues](https://github.com/formseal/formseal-fetch/issues)
+2. Check [GitHub Issues](https://github.com/useFormseal/fetch/issues)
 3. Open a new issue with:
    - Command you ran
    - Full error message

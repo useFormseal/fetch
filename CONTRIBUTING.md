@@ -22,7 +22,7 @@ Thanks for your interest in contributing! Contributions of all kinds are welcome
 
 1. Fork the repository and clone your fork:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/formseal-fetch.git
+   git clone https://github.com/useFormseal/fetch.git
    cd formseal-fetch
    ```
 
@@ -220,6 +220,6 @@ fsf disconnect               # confirm credentials are cleared
 
 Use the GitHub issue templates — they're structured to make sure we get the info needed to help quickly:
 
-- **[Bug report](https://github.com/grayguava/formseal-fetch/issues/new?template=bug_report.yml)** : something isn't working
-- **[Documentation issue](https://github.com/grayguava/formseal-fetch/issues/new?template=documentation.yml)** : something in the docs is wrong or missing
-- **[Question / support](https://github.com/grayguava/formseal-fetch/issues/new?template=question.yml)** : need help with setup or usage
+- **[Bug report](https://github.com/useFormseal/fetch/issues/new?template=bug_report.yml)** : something isn't working
+- **[Documentation issue](https://github.com/useFormseal/fetch/issues/new?template=documentation.yml)** : something in the docs is wrong or missing
+- **[Question / support](https://github.com/useFormseal/fetch/issues/new?template=question.yml)** : need help with setup or usage

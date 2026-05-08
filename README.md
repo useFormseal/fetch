@@ -5,7 +5,7 @@
 <p align="center">
   <img src="https://img.shields.io/pypi/v/formseal-fetch?style=flat&label=pypi&labelColor=1e293b&color=3776ab">
   <img src="https://img.shields.io/badge/license-MIT-fc8181?style=flat&labelColor=1e293b">
-  <img src="https://img.shields.io/github/actions/workflow/status/grayguava/formseal-fetch/publish.yml">
+  <img src="https://img.shields.io/github/actions/workflow/status/useFormseal/fetch/publish.yml">
   <img src="https://img.shields.io/badge/formseal-ecosystem-10b981?style=flat&labelColor=1e293b">
 </p>
 
