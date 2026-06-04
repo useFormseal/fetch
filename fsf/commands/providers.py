@@ -1,9 +1,6 @@
-# List providers
+# commands/providers — List available storage providers
 
-from pathlib import Path
-
-from fsf.ui import br, C, G, Y, W, D, R, HEAD, header
-from fsf.commands.general.version import VERSION
+from fsf.ui import br, G, W, R, header
 from fsf.providers import get_providers
 
 
@@ -15,7 +12,7 @@ def _list_providers():
     providers = get_providers()
 
     br()
-    header()
+    header("providers")
     br()
 
     print(f"  {G}Available providers:{R}")

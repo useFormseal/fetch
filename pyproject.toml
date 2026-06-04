@@ -17,20 +17,19 @@ dependencies = [
     "redis>=5.0",
 ]
 
-[project.scripts]
-fsf = "fsf.fsf:main"
+[project.urls]
+Homepage = "https://github.com/useFormseal/fetch"
+Repository = "https://github.com/useFormseal/fetch.git"
 
+[project.scripts]
+fsf = "fsf.cli:main"
 
 [tool.setuptools]
 packages = [
     "fsf",
-    "fsf.general",
+    "fsf.helpers",
     "fsf.ui",
     "fsf.commands",
-    "fsf.commands.general",
-    "fsf.commands.fetch",
-    "fsf.commands.connect",
-    "fsf.commands.config",
     "fsf.providers",
     "fsf.providers.cloudflare",
     "fsf.providers.cloudflare.storage",

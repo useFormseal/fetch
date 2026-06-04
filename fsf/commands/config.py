@@ -1,11 +1,10 @@
-# Config management
+# commands/config — Config management (load, save, status, disconnect)
 
 import json
 import sys
 from pathlib import Path
 
-from fsf.ui import br, fail, ok, info, warn, G, W, D, C, Y, R, HEAD, header
-from fsf.commands.general.version import VERSION
+from fsf.ui import br, ok, info, warn, G, W, D, Y, R, header
 from fsf.security import tokens
 from fsf.providers import get_provider, get_providers
 
@@ -30,15 +29,11 @@ def get_token(provider: str):
     return tokens.load_token(provider)
 
 
-def get_namespace(provider: str):
-    return tokens.load_namespace(provider)
-
-
 def run_status():
     cfg = load_config()
 
     br()
-    header()
+    header("status")
     br()
 
     print(f"  {D}Configuration Status:{R}")
@@ -58,6 +53,11 @@ def run_status():
     row("Provider:", provider.display_name if provider else provider_name)
 
     if provider:
+        account_id = tokens.load_namespace(provider_name, key="account_id")
+        if account_id:
+            trunc = account_id[:16] + "*****" if len(account_id) > 16 else account_id
+            row("Account ID:", trunc)
+
         for field in provider.get_inputs():
             key = field["name"]
             sensitive = field.get("sensitive", False)
@@ -86,28 +86,6 @@ def run_status():
 
     output_folder = cfg.get("output_folder")
     row("Output Folder:", output_folder or "(not set)", W if output_folder else D)
-
-    br()
-
-
-def run_config_show():
-    cfg = load_config()
-
-    br()
-    header("config")
-    br()
-
-    provider = cfg.get("provider")
-
-    if not cfg:
-        info("No config. Run: fsf connect provider:<name>")
-    else:
-        for k, v in cfg.items():  # lgtm[py/clear-text-logging-sensitive-data] cfg never contains tokens; they are stored separately via tokens.save_token
-            print(f"  {D}{k}:{R}  {W}{v}{R}")
-
-    if provider:
-        token = get_token(provider)
-        print(f"  {D}token:{R}  {'******' if token else 'not set'}")
 
     br()
 
@@ -159,4 +137,4 @@ def run_disconnect(args=None):
     br()
 
 
-run_logout = run_disconnect
+

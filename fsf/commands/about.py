@@ -1,5 +1,4 @@
-# commands/about.py
-# About command - shows project info
+# commands/about — About command (show project info)
 
 from fsf.ui import br, header, C, G, W, R
 

@@ -150,22 +150,6 @@ def token_location(provider: str) -> str:
     return "Not set"
 
 
-def namespace_location(provider: str, key: str = "kv-namespace") -> str:
-    """Check where namespace is stored."""
-    key_name = f"{provider}:{key}"
-    if HAS_KEYRING:
-        try:
-            if keyring.get_password(SERVICE, key_name):
-                return "OS Keychain"
-        except Exception:
-            pass
-
-    secrets = _load_secrets()
-    if key_name in secrets:
-        return "Config File"
-    return "Not set"
-
-
 def clear_all(provider: str):
     """Clear all secrets for a provider."""
     delete_token(provider)

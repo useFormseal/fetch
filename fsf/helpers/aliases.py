@@ -1,11 +1,9 @@
-# fsf/general/aliases.py
-# Shorthand aliases
+# helpers/aliases — Command alias resolution
 
 ALIASES = {
     "-s": "status",
-    "-p": "providers",
+    "-p": ["--providers"],
     "-c": "connect",
-    "-o": ["fetch", "--output"],
 }
 
 

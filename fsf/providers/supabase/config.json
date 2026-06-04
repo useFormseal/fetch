@@ -11,7 +11,7 @@
     },
     {
       "name": "table",
-      "description": "Table name",
+      "description": "Table Name",
       "required": true,
       "sensitive": false
     }

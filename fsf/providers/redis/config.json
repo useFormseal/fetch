@@ -5,7 +5,7 @@
   "inputs": [
     {
       "name": "key_prefix",
-      "description": "Key prefix",
+      "description": "Key Prefix",
       "required": false,
       "sensitive": false
     }

@@ -9,12 +9,12 @@ Thanks for your interest in contributing! Contributions of all kinds are welcome
 - [Getting started](#getting-started)
 - [Project structure](#project-structure)
 - [Adding a new provider](#adding-a-new-provider)
-- [Provider Guide](./docs/providers/README.md)
 - [Versioning](#versioning)
 - [Code style](#code-style)
 - [Submitting changes](#submitting-changes)
 - [Testing](#testing)
 - [Reporting issues](#reporting-issues)
+- [Security](#security)
 
 ---
 
@@ -44,27 +44,22 @@ Thanks for your interest in contributing! Contributions of all kinds are welcome
 ```
 formseal-fetch/
 ├── fsf/
-│   ├── fsf.py                  # Entry point, argument dispatch
-│   ├── cmd.py                 # Command registry
-│   ├── ui.py                  # Terminal output helpers (colors, header)
-│   ├── general/               # Helpers (aliases, errors)
-│   ├── commands/              # CLI commands
-│   │   ├── general/           # about, version, help, providers
-│   │   ├── fetch/             # fsf fetch
-│   │   ├── connect/           # fsf connect
-│   │   └── config/            # fsf status, fsf set, fsf disconnect
-│   ├── providers/             # Storage backend implementations
-│   │   ├── __init__.py       # Provider base class + registry
-│   │   ├── cloudflare/       # Cloudflare KV provider
-│   │   └── supabase/         # Supabase provider
+│   ├── cli.py               # Entry point, command dispatch
+│   ├── __main__.py          # python -m fsf support
+│   ├── ui/                  # Terminal output helpers (styles, headers, bodies)
+│   ├── commands/            # CLI commands (flat: fetch, connect, config)
+│   ├── helpers/             # Aliases, errors
+│   ├── providers/           # Storage backend implementations
+│   │   ├── __init__.py     # Provider base class + registry
+│   │   ├── cloudflare/     # Cloudflare KV provider
+│   │   ├── supabase/       # Supabase provider
+│   │   └── redis/          # Redis provider
 │   └── security/
-│       └── tokens.py         # Keyring-backed credential storage
-├── docs/                     # End-user documentation
-├── .github/
-│   ├── workflows/            # GitHub Actions workflows
-│   └── ISSUE_TEMPLATE/      # GitHub issue forms
-├── pyproject.toml
-└── version.txt              # Source of truth for the version string
+│       └── tokens.py       # Keyring-backed credential storage
+├── docs/                    # Documentation
+├── .github/                 # GitHub workflows, issue templates
+├── pyproject.toml           # Package config
+└── version.txt              # Version (single source of truth)
 ```
 
 ---
@@ -75,105 +70,11 @@ Providers are storage backends that `fsf fetch` reads ciphertexts from. Each liv
 
 **Detailed specs:** See [docs/providers/README.md](docs/providers/README.md)
 
-**Quick structure:**
-```
-fsf/providers/<name>/
-├── config.json    # Provider metadata
-├── __init__.py  # Provider class
-└── engine.py   # Fetch logic
-```
-
-**1. Create `config.json`:**
-```json
-{
-  "display_name": "Display Name",
-  "storage_type": "Storage Type (e.g., PostgreSQL)",
-  "token_label": "API Token",
-  "inputs": [
-    {
-      "name": "field_name",
-      "description": "Field description",
-      "required": true,
-      "sensitive": false
-    }
-  ]
-}
-```
-
-**2. Implement the provider in `__init__.py`:**
-```python
-from fsf.providers import BaseProvider
-from fsf.providers.<name>.engine import run
-
-class MyProvider(BaseProvider):
-    name = "<name>"
-
-    def _do_fetch(self, config):
-        return run(config, debug=config.get("debug", False))
-
-Provider = MyProvider
-```
-
-**3. Implement fetch logic in `engine.py`:**
-```python
-def run(config, debug=False):
-    # your fetch logic
-    return {"submission-id": b"ciphertext data"}
-```
-
-**4. Error handling:**
-
-Catch exceptions and provide helpful messages:
-```python
-def run(config, debug=False):
-    try:
-        # fetch logic
-        return {"key": b"value"}
-    except Exception as e:
-        err = str(e)
-        if "connection" in err.lower():
-            fail("""Unable to connect
-
-Possible causes:
-- Network/firewall blocking port
-- Credentials incorrect
-
-Run 'fsf fetch --debug' for details""")
-        fail(f"Error: {err}" if debug else f"Error: {err}")
-```
-
-**5. Register it** in `pyproject.toml`:
-```toml
-[tool.setuptools]
-packages = [
-    ...
-    "fsf.providers.<name>",
-]
-```
-
-**6. Verify:**
-```bash
-fsf providers
-```
-
 ---
 
 ## Versioning
 
 The version string lives in **`version.txt`** and is the single source of truth. The publish workflow reads it and injects it into the code at build time.
-
-### For Contributors
-
-1. Update `version.txt` with your proposed version (e.g., `2.6.0`)
-2. Open a PR
-3. The maintainer handles the release workflow after merge
-
-### For Maintainers (Releasing)
-
-When preparing a release:
-1. Update `version.txt` with the new version (e.g., `2.6.0`)
-2. Trigger the **Inject Version** workflow from GitHub Actions
-3. Create a GitHub Release with the new version tag
 
 ---
 
@@ -181,8 +82,9 @@ When preparing a release:
 
 - Add a comment at the top of each logical block explaining what it does
 - Follow the patterns already in the file you're editing
-- Use the `ui.py` helpers (`info`, `fail`, `warn`, `br`, `header`) for all terminal output
-- Sensitive config values must go through `security/tokens.py` (keyring-backed), never stored in plaintext config
+- Use the `fsf.ui` module helpers (`ok`, `neutral`, `fail`, `warn`, `br`, `header`) for all terminal output
+- Validate before writing — never persist invalid state
+- Never expose secrets or keys in output
 
 ---
 
@@ -207,8 +109,8 @@ There is no automated test suite yet. Test the relevant commands manually before
 
 ```bash
 fsf                          # check version header displays correctly
-fsf providers                # verify your provider appears (if adding one)
-fsf connect provider:<name>  # walk through the setup flow
+fsf --providers              # verify your provider appears (if adding one)
+fsf connect cloudflare          # walk through the setup flow
 fsf status                   # confirm credentials were saved
 fsf fetch                    # fetch ciphertexts end-to-end
 fsf disconnect               # confirm credentials are cleared
@@ -218,8 +120,17 @@ fsf disconnect               # confirm credentials are cleared
 
 ## Reporting issues
 
-Use the GitHub issue templates — they're structured to make sure we get the info needed to help quickly:
+Report bugs via [GitHub Issues](https://github.com/useFormseal/fetch/issues/new).
 
-- **[Bug report](https://github.com/useFormseal/fetch/issues/new?template=bug_report.yml)** : something isn't working
-- **[Documentation issue](https://github.com/useFormseal/fetch/issues/new?template=documentation.yml)** : something in the docs is wrong or missing
-- **[Question / support](https://github.com/useFormseal/fetch/issues/new?template=question.yml)** : need help with setup or usage
+Please include:
+- Steps to reproduce
+- Expected vs actual behavior
+- Your OS and Python version
+
+---
+
+## Security
+
+If you find a security vulnerability, please report it privately via GitHub Security Advisories.
+
+**Do NOT** open a public issue for security vulnerabilities.

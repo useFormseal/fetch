@@ -1,10 +1,10 @@
-# Connect commands
+# commands/connect — Connect to a storage provider
 
 import sys
 from pathlib import Path
 
-from fsf.ui import br, fail, ok, info, warn, G, W, D, C, Y, O, R, HEAD, OK, header
-from fsf.commands.config.config import load_config, save_config
+from fsf.ui import br, fail, ok, info, G, W, D, R, OK, header
+from fsf.commands.config import load_config, save_config
 from fsf.security import tokens
 from fsf.providers import get_providers
 
@@ -12,16 +12,16 @@ from fsf.providers import get_providers
 def _parse_args(args):
     if not args:
         fail("Usage: fsf connect <provider> [key:value ...]")
-    
+
     provider = args[0].lower()
     parsed = {"provider": provider}
-    
+
     for arg in args[1:]:
         if ":" not in arg:
             fail(f"Invalid format: {arg}\n           Use key:value (e.g., field:value)")
         key, value = arg.split(":", 1)
         parsed[key] = value
-    
+
     return parsed
 
 
@@ -101,6 +101,14 @@ def _setup_flow(provider, parsed, provider_obj):
             fail(f"{token_label} is required")
 
         tokens.save_token(provider, token)
+
+        if provider == "cloudflare":
+            from fsf.providers.cloudflare.account import get_account_id
+            try:
+                account_id = get_account_id(token)
+                tokens.save_namespace(provider, account_id, key="account_id")
+            except Exception:
+                pass
 
     if "output" in parsed:
         output_folder = parsed["output"]

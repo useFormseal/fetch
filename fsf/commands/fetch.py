@@ -1,11 +1,10 @@
-# Fetch ciphertexts
+# commands/fetch — Download ciphertexts from storage backend
 
 import argparse
 from pathlib import Path
 
-from fsf.ui import br, fail, ok, info, G, W, D, C, R, Y, HEAD, header
-from fsf.commands.general.version import VERSION
-from fsf.commands.config.config import load_config
+from fsf.ui import br, fail, info, G, W, D, R, header
+from fsf.commands.config import load_config
 from fsf.security import tokens
 from fsf.providers import get_provider
 
@@ -30,7 +29,7 @@ def run(args):
     provider_config = _build_provider_config(provider, provider_name, parsed.debug)
 
     br()
-    header()
+    header("fetch")
     br()
 
     def row(label, value, color=W):
@@ -45,7 +44,8 @@ def run(args):
                 trunc = value[:8] + "***" if len(str(value)) > 8 else str(value)
             else:
                 trunc = str(value)
-            row(f"{key.capitalize()}:", trunc)
+            label = field.get("description") or key.replace("_", " ").capitalize()
+            row(f"{label}:", trunc)
 
     br()
 

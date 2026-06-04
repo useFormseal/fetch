@@ -13,13 +13,13 @@
   Download encrypted form submissions from your storage backend.
 </p>
 
----
+
 
 formseal-fetch pulls ciphertexts stored by your backend down to your machine. Nothing is decrypted in transit or on the server — only the holder of the private key can read submissions.
 
 formseal-fetch is not a hosted service or dashboard. It is a CLI fetch utility.
 
----
+
 
 ## Installation
 
@@ -35,7 +35,7 @@ pipx install formseal-fetch
 pip install formseal-fetch
 ```
 
----
+
 
 ## Quick start
 
@@ -45,7 +45,7 @@ fsf fetch
 fsf status
 ```
 
----
+
 
 ## How it works
 
@@ -61,7 +61,7 @@ Browser (formseal-embed)
 
 Your backend stores opaque ciphertext only. `fsf fetch` downloads it. Decryption happens separately, offline, with your private key.
 
----
+
 
 ## Commands
 
@@ -73,13 +73,15 @@ Your backend stores opaque ciphertext only. `fsf fetch` downloads it. Decryption
 | `fsf status` | Show connection info |
 | `fsf disconnect` | Clear credentials |
 | `fsf disconnect --wipe` | Clear everything including ciphertexts |
-| `fsf providers` | List available backends |
+| `fsf --providers` | List available backends |
 
 Run `fsf --help` for all options.
 
----
+
 
 ## Security
+
+> Ciphertexts are encrypted at the source by formseal-embed. fsf only handles encrypted data — a backend compromise yields no plaintext.
 
 Your API tokens never leave your machine. formseal-fetch:
 
@@ -88,30 +90,22 @@ Your API tokens never leave your machine. formseal-fetch:
 - Sends no telemetry, has no analytics
 - Skips already-downloaded ciphertexts automatically
 
----
+
 
 ## Documentation
 
-- [Getting Started](./docs/getting-started.md)
-- [Commands Reference](./docs/reference/commands.md)
-- [Troubleshooting](./docs/troubleshooting.md)
+Full documentation is in the [docs](./docs/README.md) directory.
 
-## For Developers
-
-- [Provider Guide](./docs/providers/README.md) — Add new storage backends
-- [CONTRIBUTING.md](./contributing.md) — Full contributing guide
-- [SECURITY.md](./.github/SECURITY.md) — Security policy
-
-## For developers/contributors
+## For developers
 
 - [Provider guide](./docs/providers/README.md) — Add new storage backends
-- [CONTRIBUTING.md](./contributing.md) — Full contributing guide
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — Full contributing guide
 
----
+
 
 Please star the repo if you find formseal-fetch useful.
 
----
+
 
 ## License
 

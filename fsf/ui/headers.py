@@ -1,16 +1,16 @@
 # ui/headers.py
 # Header and rule functions
 
-from fsf.ui.styles import C, G, R, W, Y, HEAD
+from fsf.ui.styles import C, G, R, W, D, HEAD, BORDER
 
 
 def header(title=""):
     if title:
-        print(f"{C} \u250c\u2500 {HEAD} {R}{W}formseal-fetch{R}  {Y}{title}{R}")
+        print(f"{C} \u250c\u2500 {HEAD} {R}{W}formseal-fetch{R}   {D}\\{R}   {W}{title}{R}")
     else:
         print(f"{C} \u250c\u2500 {HEAD} {R}{W}formseal-fetch{R}")
-    print(G + " " + "\u2500" * 52 + R)
+    print(G + " " + BORDER + R)
 
 
 def rule():
-    print(G + " " + "\u2500" * 52 + R)
+    print(G + " " + BORDER + R)

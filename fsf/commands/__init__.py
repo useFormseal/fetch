@@ -1,1 +1,1 @@
-from fsf.commands.general.version import VERSION
+# commands/__init__ — Command package root

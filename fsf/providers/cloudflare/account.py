@@ -4,8 +4,6 @@ import json
 import urllib.request
 import urllib.error
 
-from fsf.ui import fail
-
 
 class AuthError(Exception):
     """Raised when Cloudflare authentication fails."""

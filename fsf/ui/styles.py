@@ -29,18 +29,16 @@ CYAN   = "\x1b[36m"
 WHITE  = "\x1b[37m"
 GRAY   = "\x1b[90m"
 
+ERROR = "\x1b[38;5;196m"
+
 O = "\x1b[38;5;208m"
-S = "\x1b[38;5;112m"
 G = "\x1b[38;5;244m"
 C = "\x1b[38;5;108m"
 Y = "\x1b[38;5;103m"
-M = "\x1b[38;5;141m"
 W = WHITE + BOLD
 D = DIM
 R = RESET
 
 HEAD = "🐸"
 OK = "✨"
-TICK = "✔️"
-CROSS = "❌"
-ERR = "😵‍💫"
+BORDER = "\u2500" * 52

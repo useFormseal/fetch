@@ -44,12 +44,6 @@ class BaseProvider(ABC):
     def get_inputs(self):
         return self.schema.get("inputs", [])
 
-    def get_sensitive_fields(self):
-        return [f["name"] for f in self.schema.get("inputs", []) if f.get("sensitive")]
-
-    def get_non_sensitive_fields(self):
-        return [f["name"] for f in self.schema.get("inputs", []) if not f.get("sensitive")]
-
     def get_token_label(self):
         return self.schema.get("token_label", "Token")
 

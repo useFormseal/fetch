@@ -1,5 +1,4 @@
-# commands/version.py
-# Show version info.
+# commands/version — Version display
 
 VERSION = "2.6.1"
 

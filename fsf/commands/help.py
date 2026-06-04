@@ -1,16 +1,15 @@
-# commands/help.py
-# Help command - shows all available commands
+# commands/help — Help command (show commands and aliases)
 
-from fsf.ui import br, header, cmd_line, rule
+from fsf.ui import br, header, rule
 from fsf.ui.styles import C, G, R, W, GRAY
 
 
 def _get_help_groups():
     return {
         "Connect": [
-            ("fsf connect <name>", "connect to a storage provider"),
+            ("fsf connect <name>", "connect storage provider"),
             ("fsf disconnect", "clear configuration"),
-            ("fsf disconnect --wipe", "clear everything including ciphertexts"),
+            ("fsf disconnect --wipe", "clear everything"),
         ],
         "Fetch": [
             ("fsf fetch", "download ciphertexts"),
@@ -18,12 +17,12 @@ def _get_help_groups():
         ],
         "Info": [
             ("fsf status", "show configuration"),
-            ("fsf providers", "list available providers"),
+            ("fsf --providers", "list available providers"),
             ("fsf --version", "show version"),
             ("fsf --aliases", "list shorthand flags"),
         ],
         "Docs": [
-            ("https://github.com/useFormseal/fetch", None),
+            ("https://github.com/useFormseal/fetch/blob/main/docs", None),
         ],
     }
 
@@ -31,12 +30,12 @@ def _get_help_groups():
 def _show_help():
     groups = _get_help_groups()
     br()
-    header()
+    header("help")
     br()
 
     for group, cmds in groups.items():
         print(f"  {GRAY}>> {group}{R}")
-        print(G + " " + "\u2500" * 44 + R)
+        rule()
         for cmd, desc in cmds:
             if desc:
                 print(f"  {W}{cmd:<27}{R} {G}{desc}{R}")
@@ -55,9 +54,8 @@ def run_aliases():
     br()
 
     print(f" {W}Short{R}  {G}Canonical{R}")
-    print(G + " " + "\u2500" * 44 + R)
+    rule()
     print(f" {W}-s{R}     {G}status{R}")
     print(f" {W}-c{R}     {G}connect{R}")
-    print(f" {W}-o{R}     {G}fetch --output <path>{R}")
-    print(f" {W}-p{R}     {G}providers{R}")
+    print(f" {W}-p{R}     {G}--providers{R}")
     br()

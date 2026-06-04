@@ -4,7 +4,6 @@ import json
 import urllib.request
 import urllib.error
 import urllib.parse
-from pathlib import Path
 
 from fsf.ui import fail
 
