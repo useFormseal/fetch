@@ -13,7 +13,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: main
 
@@ -50,6 +50,38 @@ jobs:
           git push origin "$TAG"
           echo "::notice::Created and pushed tag $TAG"
 
+      - name: Build release artifacts
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir -p dist/fsf
+
+          echo "::group::Preparing package artifact"
+          cp -r fsf dist/fsf/
+          cp pyproject.toml dist/fsf/
+          cp LICENSE dist/fsf/
+          cp README.md dist/fsf/
+          cp version.txt dist/fsf/
+          echo "::endgroup::"
+
+          echo "::group::Creating archives"
+          tar -czf "fsf.v$VERSION.tar.gz" -C dist/fsf .
+          zip -rq "fsf.v$VERSION.zip" dist/fsf
+          echo "::endgroup::"
+
+          echo "::notice::Artifacts built for v$VERSION"
+
+      - name: Generate checksums
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          sha256sum \
+            "fsf.v$VERSION.tar.gz" \
+            "fsf.v$VERSION.zip" \
+            > SHA256SUMS.txt
+
+          echo "::notice::Generated SHA256SUMS.txt"
+
       - name: Create or update draft release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,3 +103,18 @@ jobs:
               --draft
           fi
           echo "::notice::Draft release $TAG is ready"
+
+      - name: Upload release assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          TAG="v$VERSION"
+
+          gh release upload "$TAG" \
+            "fsf.v$VERSION.tar.gz" \
+            "fsf.v$VERSION.zip" \
+            SHA256SUMS.txt \
+            --clobber
+
+          echo "::notice::Uploaded release assets for $TAG"
