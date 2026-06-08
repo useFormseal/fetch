@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 
-from fsf.ui import br, fail, ok, info, G, W, D, R, OK, header
+from fsf.ui import br, fail, ok, info, G, W, D, R, C, OK, header
 from fsf.commands.config import load_config, save_config
 from fsf.security import tokens
 from fsf.providers import get_providers
@@ -18,7 +18,7 @@ def _parse_args(args):
 
     for arg in args[1:]:
         if ":" not in arg:
-            fail(f"Invalid format: {arg}\n           Use key:value (e.g., field:value)")
+            fail(f"Invalid format: {arg}\n         Use key:value (e.g., field:value)")
         key, value = arg.split(":", 1)
         parsed[key] = value
 
@@ -29,16 +29,29 @@ def run(args):
     if not args:
         fail("Usage: fsf connect <provider> [key:value ...]")
 
+    if not tokens.check_keyring():
+        fail("""No supported credential store found.
+
+          This application requires an OS keyring.
+
+          Supported:
+          - Windows Credential Manager
+          - macOS Keychain
+          - Secret Service (GNOME Keyring)
+          - KWallet
+
+  Headless environments are not currently supported.""")
+
     parsed = _parse_args(args)
 
     cfg = load_config()
     if cfg.get("provider"):
-        fail(f"Provider already set: {cfg['provider']}\nRun 'fsf disconnect' first.")
+        fail(f"Provider already set: {cfg['provider']}\n         Run {C}fsf disconnect{R} first.")
 
     provider = parsed["provider"].lower()
     providers = get_providers()
     if provider not in providers:
-        fail(f"Unknown provider: {provider}\n           Run fsf providers to see available.")
+        fail(f"Unknown provider: {provider}\n         Run {C}fsf providers{R} to see available.")
 
     _setup_flow(provider, parsed, providers[provider])
 

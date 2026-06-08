@@ -1,1 +1,1 @@
-# security/__init__ — Credential storage module
+# security/__init__ — Credential storage module (OS keychain)
