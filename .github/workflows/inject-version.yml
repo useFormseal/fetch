@@ -21,7 +21,7 @@ jobs:
         run: |
           VERSION="${{ github.event.inputs.version }}"
           if [ -z "$VERSION" ]; then
-            VERSION=$(cat version.txt)
+            VERSION=$(cat version)
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 

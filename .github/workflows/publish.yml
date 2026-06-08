@@ -24,7 +24,7 @@ jobs:
       - name: Read version
         id: version
         run: |
-          VERSION=$(cat version.txt)
+          VERSION=$(cat version)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "::notice::Publishing version $VERSION to PyPI"
 
