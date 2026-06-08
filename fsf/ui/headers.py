@@ -1,5 +1,4 @@
-# ui/headers.py
-# Header and rule functions
+# ui/headers — Header and rule functions
 
 from fsf.ui.styles import C, G, R, W, D, HEAD, BORDER
 

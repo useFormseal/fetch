@@ -1,4 +1,4 @@
-# Cloudflare account authentication
+# providers/cloudflare/account — Cloudflare account authentication
 
 import json
 import urllib.request

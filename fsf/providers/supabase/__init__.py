@@ -1,5 +1,4 @@
-# fsf/providers/supabase/__init__.py
-# Supabase provider
+# providers/supabase/__init__ — Supabase provider
 
 from fsf.providers import BaseProvider
 from fsf.providers.supabase.engine import run

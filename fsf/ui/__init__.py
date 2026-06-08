@@ -1,5 +1,4 @@
-# ui/__init__.py
-# UI module exports
+# ui/__init__ — UI module exports
 
 from fsf.ui.styles import (
     RESET, BOLD, DIM,

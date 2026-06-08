@@ -1,5 +1,4 @@
-# fsf/providers/redis/__init__.py
-# Redis provider
+# providers/redis/__init__ — Redis provider
 
 from fsf.providers import BaseProvider
 from fsf.providers.redis.engine import run

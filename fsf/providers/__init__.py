@@ -1,5 +1,4 @@
-# fsf/providers/__init__.py
-# Provider system
+# providers/__init__ — Provider system
 
 import json
 import logging

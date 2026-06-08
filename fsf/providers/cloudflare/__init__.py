@@ -1,5 +1,4 @@
-# fsf/providers/cloudflare/__init__.py
-# Cloudflare provider
+# providers/cloudflare/__init__ — Cloudflare provider
 
 from fsf.providers import BaseProvider
 from fsf.providers.cloudflare.engine import run

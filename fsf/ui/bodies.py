@@ -1,5 +1,4 @@
-# ui/bodies.py
-# Body output functions
+# ui/bodies — Body output functions
 
 from fsf.ui.styles import D, G, O, R, W, Y, ERROR
 

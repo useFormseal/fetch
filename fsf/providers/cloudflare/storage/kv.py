@@ -1,4 +1,4 @@
-# Cloudflare KV storage
+# providers/cloudflare/storage/kv — Cloudflare KV storage
 
 import json
 import urllib.request

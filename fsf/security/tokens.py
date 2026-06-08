@@ -1,4 +1,4 @@
-# Credential storage (keyring + JSON fallback)
+# security/tokens — Credential storage (keyring + JSON fallback)
 
 import json
 import base64

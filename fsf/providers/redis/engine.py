@@ -1,5 +1,4 @@
-# fsf/providers/redis/engine.py
-# Redis engine
+# providers/redis/engine —  Redis engine
 
 import redis as redis_client
 from urllib.parse import urlparse

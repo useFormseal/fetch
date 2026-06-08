@@ -1,4 +1,4 @@
-# Supabase storage
+# providers/supabase/storage — Supabase storage
 
 import json
 import re

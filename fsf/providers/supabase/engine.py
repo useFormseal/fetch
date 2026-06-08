@@ -1,5 +1,4 @@
-# fsf/providers/supabase/engine.py
-# Supabase engine
+# providers/supabase/engine — Supabase engine
 
 from fsf.providers.supabase.storage import fetch as supabase_fetch
 
