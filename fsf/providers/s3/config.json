@@ -1,0 +1,42 @@
+{
+  "display_name": "🪣 S3",
+  "storage_type": "S3-compatible Object Storage",
+  "inputs": [
+    {
+      "name": "endpoint",
+      "description": "Endpoint URL",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "bucket",
+      "description": "Bucket Name",
+      "required": true,
+      "sensitive": false
+    },
+    {
+      "name": "region",
+      "description": "Region",
+      "required": false,
+      "sensitive": false
+    },
+    {
+      "name": "prefix",
+      "description": "Key Prefix",
+      "required": false,
+      "sensitive": false
+    },
+    {
+      "name": "access_key_id",
+      "description": "Access Key ID",
+      "required": true,
+      "sensitive": true
+    },
+    {
+      "name": "secret_access_key",
+      "description": "Secret Access Key",
+      "required": true,
+      "sensitive": true
+    }
+  ]
+}

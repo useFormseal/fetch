@@ -43,11 +43,12 @@ class BaseProvider(ABC):
     def get_inputs(self):
         return self.schema.get("inputs", [])
 
-    def get_token_label(self):
-        return self.schema.get("token_label", "Token")
-
     @abstractmethod
     def _do_fetch(self, config: dict) -> dict[str, bytes]:
+        pass
+
+    def post_connect(self, provider_name: str, config: dict):
+        """Hook called after a successful connect. Override for post-setup tasks."""
         pass
 
     def fetch(self, config: dict) -> dict[str, bytes]:

@@ -8,5 +8,5 @@ from fsf.ui.styles import (
 )
 from fsf.ui.headers import header, rule
 from fsf.ui.bodies import (
-    br, fail, neutral, ok, info, warn,
+    br, fail, neutral, ok, info, warn, truncate,
 )

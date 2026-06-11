@@ -9,7 +9,6 @@ Thanks for your interest in contributing! Contributions of all kinds are welcome
 - [Getting started](#getting-started)
 - [Project structure](#project-structure)
 - [Adding a new provider](#adding-a-new-provider)
-- [Versioning](#versioning)
 - [Code style](#code-style)
 - [Submitting changes](#submitting-changes)
 - [Testing](#testing)
@@ -59,7 +58,7 @@ formseal-fetch/
 ├── docs/                    # Documentation
 ├── .github/                 # GitHub workflows, issue templates
 ├── pyproject.toml           # Package config
-└── version.txt              # Version (single source of truth)
+└── version                  # Version
 ```
 
 ---
@@ -69,12 +68,6 @@ formseal-fetch/
 Providers are storage backends that `fsf fetch` reads ciphertexts from. Each lives in its own sub-package under `fsf/providers/`.
 
 **Detailed specs:** See [docs/providers/README.md](docs/providers/README.md)
-
----
-
-## Versioning
-
-The version string lives in **`version.txt`** and is the single source of truth. The publish workflow reads it and injects it into the code at build time.
 
 ---
 

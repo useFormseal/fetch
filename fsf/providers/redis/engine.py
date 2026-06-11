@@ -7,12 +7,7 @@ from fsf.ui import fail, br, C, R
 
 
 def run(config, debug=False):
-    from fsf.security import tokens
-    from fsf.commands.config import load_config
-
-    cfg = load_config()
-    provider = cfg.get("provider")
-    url = tokens.load_token(provider)
+    url = config.get("url")
     key_prefix = config.get("key_prefix", "submissions")
 
     parsed = urlparse(url)

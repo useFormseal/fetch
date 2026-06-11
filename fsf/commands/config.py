@@ -4,9 +4,9 @@ import json
 import sys
 from pathlib import Path
 
-from fsf.ui import br, ok, info, warn, G, W, D, Y, R, header
+from fsf.ui import br, ok, info, warn, G, W, D, Y, R, header, truncate
 from fsf.security import tokens
-from fsf.providers import get_provider, get_providers
+from fsf.providers import get_provider
 
 
 CONFIG_DIR = Path.home() / ".config" / "formseal-fetch"
@@ -23,10 +23,6 @@ def load_config():
 def save_config(cfg):
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
     CONFIG_FILE.write_text(json.dumps(cfg, indent=2))
-
-
-def get_token(provider: str):
-    return tokens.load_token(provider)
 
 
 def run_status():
@@ -55,7 +51,7 @@ def run_status():
     if provider:
         account_id = tokens.load_namespace(provider_name, key="account_id")
         if account_id:
-            trunc = account_id[:16] + "*****" if len(account_id) > 16 else account_id
+            trunc = truncate(account_id)
             row("Account ID:", trunc)
 
         for field in provider.get_inputs():
@@ -68,18 +64,18 @@ def run_status():
             desc = field.get("description", key)
             if value:
                 if sensitive:
-                    trunc = value[:8] + "***" if len(str(value)) > 8 else str(value)
+                    trunc = truncate(value)
                 else:
                     trunc = str(value)
             else:
                 trunc = "(not set)"
             row(f"{desc}:", trunc, W if value else D)
 
-        token = get_token(provider_name)
-        if token:
-            row("Token Location:", tokens.token_location(provider_name), G)
-        else:
-            row("Token Location:", "Not set", D)
+        has_keychain = any(
+            tokens.load_namespace(provider_name, key=f["name"])
+            for f in provider.get_inputs() if f.get("sensitive")
+        )
+        row("Credentials:", "OS Keychain" if has_keychain else "Not set", G if has_keychain else D)
 
         br()
         row("Storage Type:", provider.storage_type)
@@ -127,7 +123,9 @@ def run_disconnect(args=None):
         CONFIG_FILE.unlink()
 
     if provider:
-        tokens.clear_all(provider)
+        provider_obj = get_provider(provider)
+        sensitive_keys = [f["name"] for f in (provider_obj.get_inputs() if provider_obj else []) if f.get("sensitive")]
+        tokens.clear_all(provider, extra_keys=sensitive_keys)
 
     br()
     if wipe:

@@ -1,13 +1,18 @@
 {
   "display_name": "⛅️ Cloudflare",
   "storage_type": "Key-Value",
-  "token_label": "API Token",
   "inputs": [
     {
       "name": "namespace",
       "description": "KV Namespace ID",
       "required": true,
       "sensitive": false
+    },
+    {
+      "name": "token",
+      "description": "API Token",
+      "required": true,
+      "sensitive": true
     }
   ]
 }

@@ -65,6 +65,7 @@ def _setup_flow(provider, parsed, provider_obj):
     cfg["provider"] = provider
 
     inputs = provider_obj.get_inputs()
+    collected = {}
 
     for field in inputs:
         key = field["name"]
@@ -87,41 +88,13 @@ def _setup_flow(provider, parsed, provider_obj):
             fail(f"{prompt} is required")
 
         if value:
+            collected[key] = value
             if sensitive:
                 tokens.save_namespace(provider, value, key=key)
             else:
                 cfg[key] = value
 
-    token_label = provider_obj.get_token_label()
-    if token_label:
-        if "token" in parsed:
-            token = parsed["token"]
-        else:
-            try:
-                sys.stdout.write(f"  {token_label}: ")
-                sys.stdout.flush()
-                token = sys.stdin.readline().strip()
-            except KeyboardInterrupt:
-                br()
-                info("Cancelled.")
-                br()
-                return
-            if not token:
-                fail(f"{token_label} is required")
-
-        token = "".join(c for c in token if c.isprintable()).strip()
-        if not token:
-            fail(f"{token_label} is required")
-
-        tokens.save_token(provider, token)
-
-        if provider == "cloudflare":
-            from fsf.providers.cloudflare.account import get_account_id
-            try:
-                account_id = get_account_id(token)
-                tokens.save_namespace(provider, account_id, key="account_id")
-            except Exception:
-                pass
+    provider_obj.post_connect(provider, collected)
 
     if "output" in parsed:
         output_folder = parsed["output"]

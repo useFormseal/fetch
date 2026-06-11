@@ -17,28 +17,6 @@ def check_keyring() -> bool:
         return False
 
 
-def save_token(provider: str, token: str) -> bool:
-    try:
-        keyring.set_password(SERVICE, f"{provider}:api-token", token)
-        return True
-    except Exception:
-        fail("Could not save token to OS keychain.")
-
-
-def load_token(provider: str) -> str | None:
-    try:
-        return keyring.get_password(SERVICE, f"{provider}:api-token")
-    except Exception:
-        fail("Could not read token from OS keychain.")
-
-
-def delete_token(provider: str):
-    try:
-        keyring.delete_password(SERVICE, f"{provider}:api-token")
-    except Exception:
-        pass
-
-
 def save_namespace(provider: str, namespace: str, key: str = "kv-namespace") -> bool:
     try:
         keyring.set_password(SERVICE, f"{provider}:{key}", namespace)
@@ -61,15 +39,7 @@ def delete_namespace(provider: str, key: str = "kv-namespace"):
         pass
 
 
-def token_location(provider: str) -> str:
-    try:
-        if keyring.get_password(SERVICE, f"{provider}:api-token"):
-            return "OS Keychain"
-    except Exception:
-        pass
-    return "Not set"
-
-
-def clear_all(provider: str):
-    delete_token(provider)
+def clear_all(provider: str, extra_keys: list | None = None):
     delete_namespace(provider)
+    for key in (extra_keys or []):
+        delete_namespace(provider, key=key)

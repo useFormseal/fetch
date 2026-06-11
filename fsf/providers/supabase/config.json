@@ -1,7 +1,6 @@
 {
   "display_name": "⚡️ Supabase",
   "storage_type": "PostgreSQL",
-  "token_label": "Service Role Key",
   "inputs": [
     {
       "name": "project_ref",
@@ -14,6 +13,12 @@
       "description": "Table Name",
       "required": true,
       "sensitive": false
+    },
+    {
+      "name": "token",
+      "description": "Service Role Key",
+      "required": true,
+      "sensitive": true
     }
   ]
 }

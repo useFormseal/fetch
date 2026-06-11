@@ -3,7 +3,7 @@
 import argparse
 from pathlib import Path
 
-from fsf.ui import br, fail, info, G, W, D, R, header
+from fsf.ui import br, fail, info, G, W, D, R, header, truncate
 from fsf.commands.config import load_config
 from fsf.security import tokens
 from fsf.providers import get_provider
@@ -41,7 +41,7 @@ def run(args):
         if value:
             sensitive = field.get("sensitive", False)
             if sensitive:
-                trunc = value[:8] + "***" if len(str(value)) > 8 else str(value)
+                trunc = truncate(value)
             else:
                 trunc = str(value)
             label = field.get("description") or key.replace("_", " ").capitalize()
@@ -93,8 +93,6 @@ def _build_provider_config(provider, provider_name, debug=False):
             value = cfg.get(key)
         if value:
             config[key] = value
-
-    config["token"] = tokens.load_token(provider_name)
 
     return config
 

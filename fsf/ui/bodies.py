@@ -29,3 +29,8 @@ def ok(msg):
 
 def warn(msg):
     print(f"{Y}⚠️ {R}{msg}")
+
+
+def truncate(value, max_len=8):
+    value = str(value)
+    return value[:max_len] + "*" * 4 if len(value) > max_len else value
